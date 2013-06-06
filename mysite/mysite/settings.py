@@ -114,7 +114,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    'PROJECT_ROOT/templates',
+    ('PROJECT_ROOT/templates',)
 )
 
 INSTALLED_APPS = (
@@ -129,13 +129,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'polls',
-    #'allauth',
-    #'allauth.account',
-    #'allauth.socialaccount',
-    # ... include the providers you want to enable:
 
-    #'allauth.socialaccount.providers.facebook',
-    #'allauth.socialaccount.providers.google',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -171,19 +165,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     
     "django.core.context_processors.request",
     'django.contrib.auth.context_processors.auth',
-    "allauth.account.context_processors.account",
-    "allauth.socialaccount.context_processors.socialaccount",
+    #"allauth.account.context_processors.account",
+    #"allauth.socialaccount.context_processors.socialaccount",
 
 )
 
-AUTHENTICATION_BACKENDS = (
-    
-    # Needed to login by username in Django admin, regardless of `allauth`
-    "django.contrib.auth.backends.ModelBackend",
-
-    # `allauth` specific authentication methods, such as login by e-mail
-    "allauth.account.auth_backends.AuthenticationBackend",
-)
 
 try:
     from local_settings import *
