@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 #from polls.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 import datetime
+from django.contrib.auth.models import User
 
 def login(request):
     
@@ -50,9 +51,10 @@ def vote(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
     try:
         selected_choice = p.choice_set.get(pk=request.POST['choice'])
-        
+        import pdb; pdb.set_trace()
+        poll = Poll.objects.filter(user_id=poll_id)
         updateddate = datetime.datetime.now()
-        Poll.objects.create(updated=updateddate)
+        Poll.objects.create(updated=updateddate, user_id=poll_id, pub_date=poll.pub_date)
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the poll voting form.
         return render_to_response('polls/detail.html', {
