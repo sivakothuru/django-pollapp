@@ -10,7 +10,6 @@ class PollAdmin(admin.ModelAdmin):
         (None,               {'fields': ['question']}),
         (None,               {'fields': ['user']}),
         (None,               {'fields': ['created']}),
-        (None,               {'fields': ['updated']}),
         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
     ]
     inlines = [ChoiceInline]

@@ -18,7 +18,6 @@ def login(request):
     
     if request.method == 'POST':
         f = AuthenticationForm(None, request.POST)
-        print 'hiiiii'
         if f.is_valid():
             latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
             return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list})
@@ -51,10 +50,9 @@ def vote(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
     try:
         selected_choice = p.choice_set.get(pk=request.POST['choice'])
-        import pdb; pdb.set_trace()
-        poll = Poll.objects.filter(user_id=poll_id)
-        updateddate = datetime.datetime.now()
-        Poll.objects.create(updated=updateddate, user_id=poll_id, pub_date=poll.pub_date)
+        poll = Poll.objects.get(id=poll_id)
+        poll.save()
+        user = User.objects.get(id=poll.user_id)
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the poll voting form.
         return render_to_response('polls/detail.html', {

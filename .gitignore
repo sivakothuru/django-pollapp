@@ -1,4 +1,5 @@
 *~
-*pyc
-localsettings.py
+*.pyc
+local_settings.py
 newpoll
+pollapp

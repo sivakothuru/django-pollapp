@@ -8,7 +8,7 @@ class Poll(models.Model):
     question = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
     created = models.DateTimeField('created date', default = datetime.datetime.now())
-    updated = models.DateTimeField('updated date', default = datetime.datetime.now())
+    updated = models.DateTimeField('updated date', auto_now=True)
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
     was_published_recently.admin_order_field = 'pub_date'
