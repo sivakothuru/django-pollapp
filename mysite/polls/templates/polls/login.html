@@ -1,0 +1,9 @@
+<form name="input" action='/' method='post'>
+    <a href='usercreation/'>New user</a>
+{% csrf_token %}
+
+   {{form.errors}} 
+    <p>{{form.username.label}}:{{form.username}}</p>
+    <p>{{form.password.label}}:{{form.password}}</p>
+    <input type="submit" value="Submit">
+</form>

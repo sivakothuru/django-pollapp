@@ -1,14 +1,14 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+from django.conf import settings
 
-from polls import views
+from django.conf.urls import patterns, include, url
 
-urlpatterns = patterns('',
-    # ex: /polls/
-    url(r'^$', views.index, name='index'),
-    # ex: /polls/5/
-    url(r'^specifics/(?P<poll_id>\d+)/$', views.detail, name='detail'),
-    # ex: /polls/5/results/
-    url(r'^(?P<poll_id>\d+)/results/$', views.results, name='results'),
-    # ex: /polls/5/vote/
-    url(r'^(?P<poll_id>\d+)/vote/$', views.vote, name='vote'),
+urlpatterns = patterns('polls.views',
+    url(r'^$', 'login', name='home'),
+    url(r'^usercreation/', 'user_creation', name='home'),
+    url(r'^index/$', 'index', name="index"),
+    url(r'^polls/(?P<poll_id>\d+)/$', 'detail', name="detail"),
+    url(r'^polls/(?P<poll_id>\d+)/results/$', 'results', name="results"),
+    url(r'^polls/(?P<poll_id>\d+)/vote/$', 'vote', name="vote"),
 )
