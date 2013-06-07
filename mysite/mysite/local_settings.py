@@ -1,10 +1,10 @@
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'pollapp',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'poll',                      # Or path to database file if using sqlite3.
+        'USER': 'siva',                      # Not used with sqlite3.
+        'PASSWORD': 'siva-agiliq',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -26,14 +26,14 @@ DATABASES = {
 
 # The URL to redirect to after a successful e-mail confirmation, in case of
 # an authenticated user. Default is settings.LOGIN_REDIRECT_URL
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "http://127.0.0.1:8000/polls"
+#ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "http://127.0.0.1:8000/polls"
 
 
 # Determines the expiration date of email confirmation mails (# of days).
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+#ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 
 # The user is required to hand over an e-mail address when signing up.
-ACCOUNT_EMAIL_REQUIRED = True
+#ACCOUNT_EMAIL_REQUIRED = True
 
 # Determines the e-mail verification method during signup. When set to
 # "mandatory" the user is blocked from logging in until the email
@@ -41,7 +41,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 # with an unverified e-mail address. In case of "optional", the e-mail
 # verification mail is still sent, whereas in case of "none" no e-mail
 # verification mails are sent.
-ACCOUNT_EMAIL_VERIFICATION = "none"
+#ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Subject-line prefix to use for email messages sent. By default, the name
 # of the current Site (django.contrib.sites) is used.
@@ -57,7 +57,7 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 #ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = True
 
 # Enforce uniqueness of e-mail addresses.
-ACCOUNT_UNIQUE_EMAIL = True
+#ACCOUNT_UNIQUE_EMAIL = True
 
 # A callable (or string of the form 'some.module.callable_name') that takes
 # a user as its only argument and returns the display name of the user. The
@@ -65,23 +65,23 @@ ACCOUNT_UNIQUE_EMAIL = True
 #ACCOUNT_USER_DISPLAY
 
 # An integer specifying the minimum allowed length of a username.
-ACCOUNT_USERNAME_MIN_LENGTH = 1
+#ACCOUNT_USERNAME_MIN_LENGTH = 1
 
 # The user is required to enter a username when signing up. Note that the
 # user will be asked to do so even if ACCOUNT_AUTHENTICATION_METHOD is set
 # to email. Set to False when you do not wish to prompt the user to enter a
 # username.
-ACCOUNT_USERNAME_REQUIRED = True
+#ACCOUNT_USERNAME_REQUIRED = True
 
 # render_value parameter as passed to PasswordInput fields.
 #ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = False
 
 # An integer specifying the minimum password length.
-ACCOUNT_PASSWORD_MIN_LENGTH = 6
+#ACCOUNT_PASSWORD_MIN_LENGTH = 6
 
 # Request e-mail address from 3rd party account provider? E.g. using OpenID
 # AX, or the Facebook 'email' permission.
-SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
+#SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
 
 # Attempt to bypass the signup form by using fields (e.g. username, email)
 # retrieved from the social account provider. If a conflict arises due to a
