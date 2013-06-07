@@ -1,1 +1,1 @@
-web: python mysite/manage.py runserver 5000
+web: gunicorn mysite.wsgi
