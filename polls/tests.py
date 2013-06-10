@@ -9,8 +9,10 @@ import datetime
 
 from django.utils import timezone
 from django.test import TestCase
-
-from polls.models import Poll
+from django.test import Client
+from polls.models import Poll, Choice
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse 
 
 class PollMethodTests(TestCase):
 
@@ -38,10 +40,46 @@ class PollMethodTests(TestCase):
         recent_poll = Poll(pub_date=timezone.now() - datetime.timedelta(hours=1))
         self.assertEqual(recent_poll.was_published_recently(), True)
 
-class IndexView(generic.ListView):
-    template_name = 'polls/index.html'
-    context_object_name = 'latest_poll_list'
+class TestViewsBasic(TestCase):
 
-    def get_queryset(self):
-        """Return the last five published polls."""
-        return Poll.objects.order_by('-pub_date')[:5]
+    def setUp(self):
+        self.user = User.objects.create_user(username="foo",
+                                             email="foo@example.com",
+                                             password="bar")
+        self.c = Client()
+
+    def test_index(self):
+        response = self.c.get("/index/")
+        self.assertEqual(200, response.status_code)
+
+    def test_login(self):
+        response = self.c.get("/")
+        self.assertEqual(200, response.status_code)
+        self.c.login(email="foo@example.com", password="bar")
+        response = self.c.get("/")
+        self.assertEqual(200, response.status_code)
+
+    def test_create_user(self):
+        response = self.c.get("/usercreation/")
+        self.assertEqual(200, response.status_code)
+        self.c.login(email="foo@example.com", password="bar", password1="bar")
+        response = self.c.get("/usercreation/")
+        self.assertEqual(200, response.status_code)
+
+    def test_detail(self):
+        poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
+        response = self.c.get(reverse('detail', args=[poll.id]))
+        self.assertEqual(200, response.status_code)
+
+    def test_results(self):
+        poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
+        response = self.c.get(reverse('results', args=[poll.id]))
+        self.assertEqual(200, response.status_code)
+
+    def test_vote(self):
+        poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
+        response = self.c.get(reverse('vote', args=[poll.id]))
+        self.assertEqual(200, response.status_code)
+        choice = Choice.objects.create(poll=poll, choice_text='not much')
+        response = self.c.post(reverse('vote', args=[poll.id]), {choice:choice.id})
+        self.assertEqual(200, response.status_code)

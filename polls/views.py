@@ -36,7 +36,7 @@ def user_creation(request):
 
 def index(request):
     latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
-    return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list})
+    return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list}, context_instance=RequestContext(request))
 
 def results(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
@@ -45,6 +45,7 @@ def results(request, poll_id):
 def vote(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
     try:
+        print request.POST
         selected_choice = p.choice_set.get(pk=request.POST['choice'])
         poll = Poll.objects.get(id=poll_id)
         poll.save()
