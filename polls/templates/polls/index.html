@@ -1,3 +1,10 @@
+{% extends 'base.html' %}
+{% block body %}
+<div style="margin-top:150px">
+<div class="row">
+    <div class="span5">
+    </div>
+    <div class='span3'>
 {% if latest_poll_list %}
     <ul>
     {% for poll in latest_poll_list %}
@@ -7,3 +14,5 @@
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
+</div>
+{% endblock %}

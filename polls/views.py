@@ -6,21 +6,17 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-#from polls.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 import datetime
 from django.contrib.auth.models import User
 
 def login(request):
-    
     f = AuthenticationForm()
-    
-    
     if request.method == 'POST':
         f = AuthenticationForm(None, request.POST)
         if f.is_valid():
             latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
-            return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list})
+            return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list}, context_instance=RequestContext(request))
         else:
             HttpResponse("Invalid data")
     return render_to_response('polls/login.html',{'form': f}, context_instance=RequestContext(request))
@@ -62,9 +58,6 @@ def vote(request, poll_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-         # Always return an HttpResponseRedirect after successfully dealing
-    # with POST data. This prevents data from being posted twice if a
-         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls.views.results', args=(p.id,)))
 
 def detail(request, poll_id):

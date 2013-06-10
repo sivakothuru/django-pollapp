@@ -75,6 +75,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    PROJECT_ROOT+'/static' ,
 )
 
 # List of finder classes that know how to find static files in
@@ -165,6 +166,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     
     "django.core.context_processors.request",
     'django.contrib.auth.context_processors.auth',
+    "django.core.context_processors.static",
     #"allauth.account.context_processors.account",
     #"allauth.socialaccount.context_processors.socialaccount",
 
