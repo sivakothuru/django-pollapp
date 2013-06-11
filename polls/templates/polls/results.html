@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block css %}
 <style>
-h1{
-    color:blue;
-}
+    h1{
+       color:blue;
+    }
 
 </style>
 {% endblock %}
@@ -12,15 +12,16 @@ h1{
     <div class="span10">
     </div>
     <div class='span3'>
-<h1>{{ poll.question }}</h1>
+        <h1>{{ poll.question }}</h1>
 
-<ul>
-{% for choice in poll.choice_set.all %}
-    <li>{{ choice.choice }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
-{% endfor %}
-</ul>
+        <ul>
+            {% for choice in poll.choice_set.all %}
+                <li>{{ choice.choice }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+            {% endfor %}
+        </ul>
 
-<a href="/polls/{{ poll.id }}/">Vote again?</a>
-</div>
+        <a href="/polls/{{ poll.id }}/">Vote again?</a></br>
+        <a href="/logout/">Logout</a>
+    </div>
 </div>
 {% endblock %}

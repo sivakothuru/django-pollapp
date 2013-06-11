@@ -78,6 +78,7 @@ STATICFILES_DIRS = (
     PROJECT_ROOT+'/static' ,
 )
 
+LOGIN_URL = '/'
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (

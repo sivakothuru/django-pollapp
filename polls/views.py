@@ -9,12 +9,18 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 import datetime
 from django.contrib.auth.models import User
+from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.decorators import login_required
 
-def login(request):
+def login_view(request):
     f = AuthenticationForm()
     if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
         f = AuthenticationForm(None, request.POST)
         if f.is_valid():
+            login(request, user)
             latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
             return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list}, context_instance=RequestContext(request))
         else:
@@ -34,14 +40,17 @@ def user_creation(request):
             HttpResponse("Invalid data")
     return render_to_response('polls/user_creation.html', {'form': f}, context_instance=RequestContext(request))
 
+@login_required
 def index(request):
     latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
     return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list}, context_instance=RequestContext(request))
 
+@login_required
 def results(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
     return render_to_response('polls/results.html', {'poll': p})
 
+@login_required
 def vote(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
     try:
@@ -61,9 +70,13 @@ def vote(request, poll_id):
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls.views.results', args=(p.id,)))
 
+@login_required
 def detail(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
     return render_to_response('polls/detail.html', {'poll': p},
                                context_instance=RequestContext(request))
 
-#def votes_regestered(request,id):
+def logout_view(request):
+    logout(request)
+    f = AuthenticationForm()
+    return render_to_response("polls/login.html", {'form':f}, context_instance=RequestContext(request))
