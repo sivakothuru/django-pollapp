@@ -91,6 +91,5 @@ def votes_of_a_user(request, poll_id):
     name = voter[0].user.username
     poll = voter[0].poll.question
     choice = voter[0].choice.choice_text
-    import pdb; pdb.set_trace()
     p = get_object_or_404(Poll, pk=poll_id)
     return render_to_response('polls/votes_of_user.html', {'name':name, 'polled':poll,'choice':choice, 'poll': p}, context_instance=RequestContext(request))
