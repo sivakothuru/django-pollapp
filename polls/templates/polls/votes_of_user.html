@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+votes casted by <h4>{{name}}</h4></br>
+
+
+    question:<h4>{{poll}}</h4></br>
+    choice:<h4>{{choice}}</h4>
+    <a href="/polls/{{ poll.id }}/">Vote again?</a></br>
+{% endblock %}

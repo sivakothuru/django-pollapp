@@ -12,4 +12,5 @@ urlpatterns = patterns('polls.views',
     url(r'^polls/(?P<poll_id>\d+)/results/$', 'results', name="results"),
     url(r'^polls/(?P<poll_id>\d+)/vote/$', 'vote', name="vote"),
     url(r'^logout', 'logout_view', name='logout'),
+    url(r'^(?P<poll_id>\d+)/votes_of_mine', 'votes_of_a_user', name='myvotes')
 )

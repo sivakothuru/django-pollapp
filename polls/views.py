@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from models import Poll ,Choice
+from models import Poll ,Choice, Vote
 from django.template import Context, loader
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -54,11 +54,16 @@ def results(request, poll_id):
 def vote(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
     try:
-        print request.POST
         selected_choice = p.choice_set.get(pk=request.POST['choice'])
         poll = Poll.objects.get(id=poll_id)
         poll.save()
-        user = User.objects.get(id=poll.user_id)
+        user = request.user
+        try:
+            voter = Vote.objects.get(user=user, poll=poll)
+            voter.choice = selected_choice
+            voter.save()
+        except:
+            vote = Vote.objects.create(user=user, poll=poll, choice=selected_choice)
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the poll voting form.
         return render_to_response('polls/detail.html', {
@@ -80,3 +85,12 @@ def logout_view(request):
     logout(request)
     f = AuthenticationForm()
     return render_to_response("polls/login.html", {'form':f}, context_instance=RequestContext(request))
+
+def votes_of_a_user(request, poll_id):
+    voter = request.user.user_votes.all()
+    name = voter[0].user.username
+    poll = voter[0].poll.question
+    choice = voter[0].choice.choice_text
+    import pdb; pdb.set_trace()
+    p = get_object_or_404(Poll, pk=poll_id)
+    return render_to_response('polls/votes_of_user.html', {'name':name, 'polled':poll,'choice':choice, 'poll': p}, context_instance=RequestContext(request))
