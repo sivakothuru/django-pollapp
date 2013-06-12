@@ -1,7 +1,6 @@
 """
 This file demonstrates writing tests using the unittest module. These will pass
 when you run "manage.py test".
-
 Replace this with more appropriate tests for your application.
 """
 
@@ -50,36 +49,38 @@ class TestViewsBasic(TestCase):
 
     def test_index(self):
         response = self.c.get("/index/")
+        self.assertEqual(302, response.status_code)
+        self.c.login(username="foo", password="bar")
+        response = self.c.get("/index/")
         self.assertEqual(200, response.status_code)
 
-    def test_login(self):
-        response = self.c.get("/")
-        self.assertEqual(200, response.status_code)
-        self.c.login(email="foo@example.com", password="bar")
-        response = self.c.get("/")
-        self.assertEqual(200, response.status_code)
-
-    def test_create_user(self):
-        response = self.c.get("/usercreation/")
-        self.assertEqual(200, response.status_code)
-        self.c.login(email="foo@example.com", password="bar", password1="bar")
-        response = self.c.get("/usercreation/")
-        self.assertEqual(200, response.status_code)
 
     def test_detail(self):
         poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
+        response = self.c.get(reverse('detail', args=[poll.id]))
+        self.assertEqual(302, response.status_code)
+        self.c.login(username="foo", password="bar")
         response = self.c.get(reverse('detail', args=[poll.id]))
         self.assertEqual(200, response.status_code)
 
     def test_results(self):
         poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
         response = self.c.get(reverse('results', args=[poll.id]))
+        self.assertEqual(302, response.status_code)
+        self.c.login(username="foo", password="bar")
+        response = self.c.get(reverse('results', args=[poll.id]))
         self.assertEqual(200, response.status_code)
+
 
     def test_vote(self):
         poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
         response = self.c.get(reverse('vote', args=[poll.id]))
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(302, response.status_code)
         choice = Choice.objects.create(poll=poll, choice_text='not much')
+        response = self.c.post(reverse('vote', args=[poll.id]), {choice:choice.id})
+        self.assertEqual(302, response.status_code)
+        self.c.login(username="foo", password="bar")
+        response = self.c.get(reverse('vote', args=[poll.id]))
+        self.assertEqual(200, response.status_code)
         response = self.c.post(reverse('vote', args=[poll.id]), {choice:choice.id})
         self.assertEqual(200, response.status_code)
