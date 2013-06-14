@@ -13,10 +13,6 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 
 
-
-
-
-
 @login_required
 def index(request):
     latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
@@ -61,9 +57,33 @@ def detail(request, poll_id):
 
 
 def votes_of_a_user(request, poll_id):
-    voter = request.user.user_votes.all()
-    name = voter[0].user.username
-    poll = voter[0].poll.question
-    choice = voter[0].choice.choice_text
+    try:
+       voter = request.user.user_votes.get(poll__id=poll_id)
+       name = voter.user.username
+       poll = voter.poll.question
+       choice = voter.choice.choice_text
+       p = get_object_or_404(Poll, pk=poll_id)
+    except:
+       msg = 'You already deleted this vote so please vote again '
+       latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
+       return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list, 'msg':msg}, context_instance=RequestContext(request))         
+
+
+    return render_to_response('polls/votes_of_user.html',
+                              {'name':name, 'polled':poll,'choice':choice,
+                              'poll': p},
+                              context_instance=RequestContext(request))
+
+def deleting_vote(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
-    return render_to_response('polls/votes_of_user.html', {'name':name, 'polled':poll,'choice':choice, 'poll': p}, context_instance=RequestContext(request))
+    voter = request.user.user_votes.get(poll__id=poll_id)
+    voter.choice.votes -= 1
+    voter.choice.save()
+    voter = request.user.user_votes.get(poll__id=poll_id).delete()
+    return render_to_response('polls/results.html', {'poll':p},
+                              context_instance=RequestContext(request))
+
+def polls_with_most_votes(request):
+    p = Choice.objects.all().order_by('votes')[:5]
+    #import pdb;pdb.set_trace()
+    return HttpResponse("highest vote polls")
