@@ -11,7 +11,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
-
+import operator
 
 @login_required
 def index(request):
@@ -37,6 +37,8 @@ def vote(request, poll_id):
             voter.save()
         except:
             vote = Vote.objects.create(user=user, poll=poll, choice=selected_choice)
+            selected_choice.votes += 1
+            selected_choice.save()
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the poll voting form.
         return render_to_response('polls/detail.html', {
@@ -44,8 +46,7 @@ def vote(request, poll_id):
             'error_message': "You didn't select a choice.",
         }, context_instance=RequestContext(request))
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
+
         return HttpResponseRedirect(reverse('polls.views.results', args=(p.id,)))
 
 @login_required
@@ -84,6 +85,16 @@ def deleting_vote(request, poll_id):
                               context_instance=RequestContext(request))
 
 def polls_with_most_votes(request):
-    p = Choice.objects.all().order_by('votes')[:5]
-    #import pdb;pdb.set_trace()
-    return HttpResponse("highest vote polls")
+    dic = {}
+    fulldata={}
+    polls = Poll.objects.all()
+    for poll in polls:
+
+        dic[poll.question] = poll.vote_set.all().count()
+        choices = poll.choice_set.all()
+        choice_set = {}
+        for choice in choices:
+             choice_set[choice.choice_text] = Vote.objects.filter(choice=choice).count()
+        fulldata[poll.question] = choice_set
+    newA = dict(sorted(dic.iteritems(), key=operator.itemgetter(1), reverse=True)[:5])
+    return render_to_response("polls/max_votes_polls.html",{'fulldata':fulldata}, context_instance=RequestContext(request))

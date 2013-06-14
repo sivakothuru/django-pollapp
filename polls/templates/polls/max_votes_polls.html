@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+<div style="margin-top:150px">
+<div class="row">
+    <div class="span5">
+    </div>
+    <div class='span3'>
+        {% for key, value in fulldata.items %}
+        <h4>{{key}}</h4></br>
+        {% for key1, value1 in value.items %}
+        {{key1}}-{{value1}}</br>
+        {% endfor %}
+        {% endfor %}
+        <a href='/index/'>Polls Page</a>
+    </div>
+{% endblock %}
