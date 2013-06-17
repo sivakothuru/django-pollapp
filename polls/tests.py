@@ -84,3 +84,21 @@ class TestViewsBasic(TestCase):
         self.assertEqual(200, response.status_code)
         response = self.c.post(reverse('vote', args=[poll.id]), {choice:choice.id})
         self.assertEqual(200, response.status_code)
+    
+    def test_votes_of_a_user(self):
+        poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
+        response = self.c.get(reverse('myvotes', args=[poll.id]))
+        self.assertEqual(200, response.status_code)
+
+    def test_deleting_vote(self):
+        poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
+        response = self.c.get("/deleting_vote/")
+        self.assertEqual(302, response.status_code)
+        self.c.login(username="foo", password="bar")
+        response = self.c.post(reverse('deleting'), {'poll_id':poll.id}) 
+        self.assertEqual(200, response.status_code)
+
+    def test_polls_with_most_votes(self):
+        response = self.c.get("/highest_votes_rcvd_polls/")
+
+        self.assertEqual(200, response.status_code)

@@ -74,14 +74,17 @@ def votes_of_a_user(request, poll_id):
                               {'name':name, 'polled':poll,'choice':choice,
                               'poll': p},
                               context_instance=RequestContext(request))
-
+@login_required
 def deleting_vote(request):
+    print 'hiiiiiiiii'
+
     poll_id = request.POST.get('poll_id')
     p = get_object_or_404(Poll, pk=poll_id)
     voter = request.user.user_votes.get(poll__id=poll_id)
     voter.choice.votes -= 1
     voter.choice.save()
     voter = request.user.user_votes.get(poll__id=poll_id).delete()
+    print 'endddddddddddddddddddddd'
     return render_to_response('polls/results.html', {'poll':p},
                               context_instance=RequestContext(request))
 
@@ -90,7 +93,6 @@ def polls_with_most_votes(request):
     fulldata={}
     polls = Poll.objects.all()
     for poll in polls:
-
         dic[poll.question] = poll.vote_set.all().count()
         choices = poll.choice_set.all()
         choice_set = {}
