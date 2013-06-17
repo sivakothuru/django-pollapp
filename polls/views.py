@@ -75,7 +75,8 @@ def votes_of_a_user(request, poll_id):
                               'poll': p},
                               context_instance=RequestContext(request))
 
-def deleting_vote(request, poll_id):
+def deleting_vote(request):
+    poll_id = request.POST.get('poll_id')
     p = get_object_or_404(Poll, pk=poll_id)
     voter = request.user.user_votes.get(poll__id=poll_id)
     voter.choice.votes -= 1
