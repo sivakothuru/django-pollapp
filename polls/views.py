@@ -56,7 +56,7 @@ def detail(request, poll_id):
                                context_instance=RequestContext(request))
 
 
-
+@login_required
 def votes_of_a_user(request, poll_id):
     try:
        voter = request.user.user_votes.get(poll__id=poll_id)
@@ -64,7 +64,7 @@ def votes_of_a_user(request, poll_id):
        poll = voter.poll.question
        choice = voter.choice.choice_text
        p = get_object_or_404(Poll, pk=poll_id)
-    except:
+    except Vote.DoesNotExist:
        msg = 'You already deleted this vote so please vote again '
        latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
        return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list, 'msg':msg}, context_instance=RequestContext(request))         

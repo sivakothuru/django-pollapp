@@ -87,8 +87,18 @@ class TestViewsBasic(TestCase):
     
     def test_votes_of_a_user(self):
         poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
+        choice = Choice.objects.create(poll=poll, choice_text='not much')
+        vote = Vote.objects.create(user=self.user, poll=poll, choice=choice)
+        self.c.login(username="foo", password="bar")
         response = self.c.get(reverse('myvotes', args=[poll.id]))
         self.assertEqual(200, response.status_code)
+        name = vote.user.username
+        self.assertEqual(response.context["name"], name)
+        response = self.c.get(reverse('myvotes', args=[10]))
+        msg = "You already deleted this vote so please vote again "
+        self.assertEqual(response.context["msg"], msg)
+
+
 
     def test_deleting_vote(self):
         poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
