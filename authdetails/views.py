@@ -17,8 +17,6 @@ def login_view(request):
             login(request, user)
             latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
             return render_to_response('polls/index.html', {'latest_poll_list': latest_poll_list}, context_instance=RequestContext(request))
-        else:
-            HttpResponse("Invalid data")
     return render_to_response('polls/login.html',{'form': f}, context_instance=RequestContext(request))
 
 def user_creation(request):

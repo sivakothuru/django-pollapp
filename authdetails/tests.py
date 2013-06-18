@@ -24,8 +24,7 @@ class SimpleTest(TestCase):
         self.assertEqual(200, response.status_code)
         response = self.c.post("/", {'username':"foo", 'password':"bar"})
         self.assertEqual(200, response.status_code)
-        response = self.c.post("/", {})
-        self.assertEqual(response.context)
+
 
     def test_create_user(self):
         response = self.c.get("/usercreation/")
