@@ -22,21 +22,21 @@ class SimpleTest(TestCase):
     def test_login(self):
         response = self.c.get("/")
         self.assertEqual(200, response.status_code)
-
         response = self.c.post("/", {'username':"foo", 'password':"bar"})
         self.assertEqual(200, response.status_code)
+        response = self.c.post("/", {})
+        self.assertEqual(response.context)
 
     def test_create_user(self):
         response = self.c.get("/usercreation/")
         self.assertEqual(200, response.status_code)
-        response = self.c.post("/usercreation/", {'email':"foo@example.com", 'password1':"bar", 'password2':"bar"})
+        response = self.c.post("/usercreation/", {'username':"foo@example.com", 'password1':"bar", 'password2':"bar"})
+        self.assertEqual(302, response.status_code)
+        response = self.c.post("/usercreation/", {})
+        response = self.c.get("/")
         self.assertEqual(200, response.status_code)
-        data = {'username':"foo@example.com", 'password1':"bar", 'password2':"bar"}
-        form = UserCreationForm(data)
-        self.assertEqual(form.is_valid(), True)
-        data = {}
-        form = UserCreationForm(data)
-        self.assertEqual(form.is_valid(), False)
+
+
 
     def test_logout(self):
         response = self.c.get("/logout/")

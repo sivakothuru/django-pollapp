@@ -74,16 +74,15 @@ class TestViewsBasic(TestCase):
 
     def test_vote(self):
         poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
-        response = self.c.get(reverse('vote', args=[poll.id]))
-        self.assertEqual(302, response.status_code)
         choice = Choice.objects.create(poll=poll, choice_text='not much')
         response = self.c.post(reverse('vote', args=[poll.id]), {choice:choice.id})
         self.assertEqual(302, response.status_code)
         self.c.login(username="foo", password="bar")
-        response = self.c.get(reverse('vote', args=[poll.id]))
-        self.assertEqual(200, response.status_code)
         response = self.c.post(reverse('vote', args=[poll.id]), {choice:choice.id})
         self.assertEqual(200, response.status_code)
+        vote = Vote.objects.create(user=self.user, poll=poll, choice=choice)
+        vote = Vote.objects.get(poll=poll.id)
+        #self.assertEqual( )
     
     def test_votes_of_a_user(self):
         poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
