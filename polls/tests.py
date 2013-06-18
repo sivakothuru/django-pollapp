@@ -9,7 +9,7 @@ import datetime
 from django.utils import timezone
 from django.test import TestCase
 from django.test import Client
-from polls.models import Poll, Choice
+from polls.models import Poll, Choice, Vote
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse 
 
@@ -92,13 +92,14 @@ class TestViewsBasic(TestCase):
 
     def test_deleting_vote(self):
         poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
+        choice = Choice.objects.create(poll=poll, choice_text='not much')
+        vote = Vote.objects.create(user=self.user, poll=poll, choice=choice)
         response = self.c.get("/deleting_vote/")
         self.assertEqual(302, response.status_code)
         self.c.login(username="foo", password="bar")
-        response = self.c.post(reverse('deleting'), {'poll_id':poll.id}) 
+        response = self.c.post(reverse('deleting'), {'poll_id':vote.poll.id})
         self.assertEqual(200, response.status_code)
 
     def test_polls_with_most_votes(self):
         response = self.c.get("/highest_votes_rcvd_polls/")
-
         self.assertEqual(200, response.status_code)
