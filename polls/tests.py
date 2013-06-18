@@ -109,6 +109,6 @@ class TestViewsBasic(TestCase):
         poll = Poll.objects.create(user=self.user, question='hi how r u?',pub_date=datetime.datetime.now())
         choice = Choice.objects.create(poll=poll, choice_text='i am fine!')
         vote = Vote.objects.create(user=self.user, poll=poll, choice=choice)
-        newA = {"whats up?": {'notmuch':1,'nothing':0}, "hi hw r u?": {'i am fine!':1, 'great':0}}
+        newA = {"wts up?": {'not much':1}, "hi how r u?": {'i am fine!':1}}
         response = self.c.get("/highest_votes_rcvd_polls/")
-        self.assertEqual(response.context(fulldata), newA)
+        self.assertEqual(response.context['fulldata'], newA)
