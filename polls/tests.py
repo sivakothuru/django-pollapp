@@ -103,3 +103,12 @@ class TestViewsBasic(TestCase):
     def test_polls_with_most_votes(self):
         response = self.c.get("/highest_votes_rcvd_polls/")
         self.assertEqual(200, response.status_code)
+        poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
+        choice = Choice.objects.create(poll=poll, choice_text='not much')
+        vote = Vote.objects.create(user=self.user, poll=poll, choice=choice)
+        poll = Poll.objects.create(user=self.user, question='hi how r u?',pub_date=datetime.datetime.now())
+        choice = Choice.objects.create(poll=poll, choice_text='i am fine!')
+        vote = Vote.objects.create(user=self.user, poll=poll, choice=choice)
+        newA = {"whats up?": {'notmuch':1,'nothing':0}, "hi hw r u?": {'i am fine!':1, 'great':0}}
+        response = self.c.get("/highest_votes_rcvd_polls/")
+        self.assertEqual(response.context(fulldata), newA)
