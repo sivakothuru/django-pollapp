@@ -39,8 +39,9 @@ def vote(request, poll_id):
             vote = Vote.objects.create(user=user, poll=poll, choice=selected_choice)
             selected_choice.votes += 1
             selected_choice.save()
-    except (KeyError, Choice.DoesNotExist):
+    except (KeyError, Choice.DoesNotExist), e:
         # Redisplay the poll voting form.
+        print e
         return render_to_response('polls/detail.html', {
             'poll': p,
             'error_message': "You didn't select a choice.",
