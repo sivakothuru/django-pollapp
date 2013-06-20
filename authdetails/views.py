@@ -18,13 +18,12 @@ def login_view(request):
         if f.is_valid():
             username = f.get_user()
             login(request, username)
-            l = list(request.META['HTTP_REFERER'])
-            if '=' in l:
-                urls = request.META['HTTP_REFERER'].split('=')
-                return HttpResponseRedirect(urls[1])
+            if 'HTTP_REFERER' in request.META:
+                if len(urls) == 2:
+                    urls = request.META['HTTP_REFERER'].split('=')
+                    return HttpResponseRedirect(urls[1])
             else:
                 return HttpResponseRedirect(reverse('polls.views.index'))
-
     return render_to_response('authdetails/login.html', {'form': f},
                               context_instance=RequestContext(request))
 
