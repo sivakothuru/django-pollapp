@@ -9,6 +9,8 @@ from django.core.urlresolvers import reverse
 
 def login_view(request):
     f = AuthenticationForm()
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('polls.views.index'))
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
