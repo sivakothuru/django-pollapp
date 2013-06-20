@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout, login
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-
+from django.core.urlresolvers import reverse
 
 def login_view(request):
     f = AuthenticationForm()
@@ -16,10 +16,12 @@ def login_view(request):
         if f.is_valid():
             username = f.get_user()
             login(request, username)
-            latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
-            return render_to_response('polls/index.html',
-                                      {'latest_poll_list': latest_poll_list},
-                                       context_instance=RequestContext(request))
+            urls = request.META['HTTP_REFERER'].split('=')
+            if len(urls) == 2:
+                return HttpResponseRedirect(urls[1])
+            else:
+                return HttpResponseRedirect(reverse('polls.views.index'))
+
     return render_to_response('authdetails/login.html', {'form': f},
                               context_instance=RequestContext(request))
 
