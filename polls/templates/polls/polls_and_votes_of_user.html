@@ -6,7 +6,6 @@
     }
 </style>
 {% endblock %}
-
 {% block body %}
 <div style="margin-left:1000px">
     <a href="/logout/"><h4>Logout</h4></a>
@@ -16,12 +15,14 @@
     <div class="span5">
     </div>
     <div class='span3'>
-        {% for key, value in fulldata.items %}
-        <h4>{{key}}</h4></br>
-        {% for key1, value1 in value.items %}
-        {{key1}}-{{value1}}</br>
-        {% endfor %}
+        {% for vote in votes %}
+           <h4>{{vote.poll.question}}</h4>
+           {{vote.choice.choice_text}}</br>
         {% endfor %}
         <a href='/index/'>Polls Page</a>
     </div>
+</div>
+</div>  
+        
+   
 {% endblock %}

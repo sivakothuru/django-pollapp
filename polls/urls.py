@@ -11,4 +11,5 @@ urlpatterns = patterns('polls.views',
     url(r'^(?P<poll_id>\d+)/votes_of_mine', 'votes_of_a_user', name='myvotes'),
     url(r'^deleting_vote/', 'deleting_vote', name='deleting'),
     url(r'^highest_votes_rcvd_polls/$', 'polls_with_most_votes', name='highest_vote_polls'),
+    url(r'^polls_and_votes/$', 'polls_and_votes_of_user', name="votes_and_polls")
 )

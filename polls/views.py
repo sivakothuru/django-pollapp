@@ -21,7 +21,7 @@ def index(request):
 @login_required
 def results(request, poll_id):
     p = get_object_or_404(Poll, pk=poll_id)
-    return render_to_response('polls/results.html', {'poll': p})
+    return render_to_response('polls/results.html', {'poll': p}, context_instance=RequestContext(request))
 
 @login_required
 def vote(request, poll_id):
@@ -98,3 +98,10 @@ def polls_with_most_votes(request):
         fulldata[poll.question] = choice_set
     newA = dict(sorted(dic.iteritems(), key=operator.itemgetter(1), reverse=True)[:5])
     return render_to_response("polls/max_votes_polls.html",{'fulldata':fulldata}, context_instance=RequestContext(request))
+
+def polls_and_votes_of_user(request):
+    dic = {}
+    fulldata={}
+    user = request.user
+    votes = Vote.objects.filter(user=user)
+    return render_to_response("polls/polls_and_votes_of_user.html",{'votes':votes}, context_instance=RequestContext(request))

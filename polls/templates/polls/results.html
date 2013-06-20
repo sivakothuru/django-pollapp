@@ -4,10 +4,17 @@
     h1{
        color:blue;
     }
-
+</style>
+<style>
+    h4{
+       color:#fff;
+    }
 </style>
 {% endblock %}
 {% block body %}
+<div style="margin-left:1000px">
+    <a href="/logout/"><h4>Logout</h4></a>
+</div>
 <div class="row">
     <div class="span10">
     </div>
@@ -22,7 +29,9 @@
 
         <a href="/polls/{{ poll.id }}/">Vote again?</a></br>
         <a href='/{{ poll.id }}/votes_of_mine/'>My Votes</a></br>
-        <a href="/logout/">Logout</a>
+        <a href='/polls_and_votes/'>My Polls and their Votes</a></br>
+        
     </div>
 </div>
+
 {% endblock %}

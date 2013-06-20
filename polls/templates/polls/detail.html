@@ -4,10 +4,17 @@
 h1{
     color:blue;
 }
-
+</style>
+<style>
+    h4{
+       color:#fff;
+    }
 </style>
 {% endblock %}
 {% block body %}
+<div style="margin-left:1000px">
+    <a href="/logout/"><h4>Logout</h4></a>
+</div>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 <div class="row">
