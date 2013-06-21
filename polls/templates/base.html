@@ -7,9 +7,15 @@
 <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
 <link href="{{STATIC_URL}}css/bootstrap-responsive.css" rel="stylesheet">
 {% block css %}
+
 {% endblock %}
 </head>
 <body style='background-color:#999'>
+    {% if user.is_authenticated %}
+    <div style="margin-left:1000px">
+       <a href="/logout/"><h4>Logout</h4></a>
+    </div>
+    {% endif %}
     {% block body %}
     {% endblock %}
 </body>

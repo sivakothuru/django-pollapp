@@ -97,6 +97,7 @@ def deleting_vote(request):
                               context_instance=RequestContext(request))
 
 
+@login_required
 def polls_with_most_votes(request):
     dic = {}
     fulldata = {}
@@ -117,7 +118,8 @@ def polls_with_most_votes(request):
 
 @login_required
 def polls_and_votes_of_user(request):
+    poll = Poll.objects.all()
     votes = Vote.objects.filter(user=request.user)
     return render_to_response("polls/polls_and_votes_of_user.html",
-                              {'votes': votes},
+                              {'votes': votes, 'poll': poll},
                                context_instance=RequestContext(request))
