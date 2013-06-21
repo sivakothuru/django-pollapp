@@ -22,7 +22,13 @@ class SimpleTest(TestCase):
     def test_login(self):
         response = self.c.get("/")
         self.assertEqual(200, response.status_code)
-        response = self.c.post("/", {'username':"foo", 'password':"bar"})
+        self.c.get("/logout/")
+        response = self.c.post("/", {'username':"foo", 'password':"bar", 'redirect_url': '/polls/1/results/'})
+        self.assertEqual(302, response.status_code)
+        self.c.get("/logout/")
+        response = self.c.post("/", {'username':"foo", 'password':"bar", 'redirect_url': ''})
+        self.assertEqual(302, response.status_code)
+        response = self.c.get("/index/")
         self.assertEqual(200, response.status_code)
 
 

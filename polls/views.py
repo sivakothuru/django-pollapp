@@ -115,10 +115,9 @@ def polls_with_most_votes(request):
                               {'fulldata': fulldata},
                                context_instance=RequestContext(request))
 
-
+@login_required
 def polls_and_votes_of_user(request):
-    user = request.user
-    votes = Vote.objects.filter(user=user)
+    votes = Vote.objects.filter(user=request.user)
     return render_to_response("polls/polls_and_votes_of_user.html",
                               {'votes': votes},
                                context_instance=RequestContext(request))

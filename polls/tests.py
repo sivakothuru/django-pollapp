@@ -127,3 +127,9 @@ class TestViewsBasic(TestCase):
         newA = {"wts up?": {'not much':1}, "hi how r u?": {'i am fine!':1}}
         response = self.c.get("/highest_votes_rcvd_polls/")
         self.assertEqual(response.context['fulldata'], newA)
+
+    def test_polls_and_votes_of_user(self):
+        self.c.login(username="foo", password="bar")
+        response = self.c.get("/polls_and_votes/")
+        self.assertEqual(200, response.status_code)
+
