@@ -116,6 +116,7 @@ class TestViewsBasic(TestCase):
         self.assertEqual(200, response.status_code)
 
     def test_polls_with_most_votes(self):
+        self.c.login(username="foo", password="bar")
         response = self.c.get("/highest_votes_rcvd_polls/")
         self.assertEqual(200, response.status_code)
         poll = Poll.objects.create(user=self.user, question='wts up?',pub_date=datetime.datetime.now())
