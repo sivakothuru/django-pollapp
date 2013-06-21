@@ -41,7 +41,7 @@ def vote(request, poll_id):
             voter = Vote.objects.get(user=user, poll=poll)
             voter.choice = selected_choice
             voter.save()
-        except:
+        except Vote.DoesNotExist:
             vote = Vote.objects.create(user=user, poll=poll,
                                        choice=selected_choice)
             selected_choice.votes += 1
