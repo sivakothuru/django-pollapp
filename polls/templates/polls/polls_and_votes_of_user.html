@@ -13,10 +13,29 @@
     <div class="span5">
     </div>
     <div class='span3'>
+        <table>
         {% for vote in votes %}
-           <h4>{{vote.poll.question}}</h4>
-           {{vote.choice.choice_text}}</br>
-        {% endfor %}
+        
+          <tr>
+            <td>
+                <h4>{{vote.poll.question}}</h4>
+            </td>
+            <td>
+               {{vote.choice.choice_text}}
+            </td>
+          </tr>
+        
+               {% endfor %}
+        
+          {% for poll in left_polls %}
+  
+            <tr>
+              <td>
+                <h4>{{poll.question}}</h4>
+              </td>
+            </tr>
+          </table>
+          {% endfor %}
         <a href='/index/'>Polls Page</a>
     </div>
 </div>

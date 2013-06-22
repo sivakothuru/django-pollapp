@@ -120,6 +120,17 @@ def polls_with_most_votes(request):
 def polls_and_votes_of_user(request):
     poll = Poll.objects.all()
     votes = Vote.objects.filter(user=request.user)
+    vote_poll = []
+    left_polls = []
+    for vote in votes:
+        vote_poll.append(vote.poll)
+    for p in poll:
+        if p not in vote_poll:
+             left_polls.append(p)
+
     return render_to_response("polls/polls_and_votes_of_user.html",
-                              {'votes': votes, 'poll': poll},
+                              {'votes': votes, 'left_polls': left_polls},
                                context_instance=RequestContext(request))
+
+def polls_and_votes1(request):
+  poll = Poll.objects.all()
