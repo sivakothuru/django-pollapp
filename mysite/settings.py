@@ -118,7 +118,8 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     PROJECT_ROOT + '/templates',
     PROJECT_ROOT + '/polls/templates',
-    PROJECT_ROOT + '/authdetails/templates'
+    PROJECT_ROOT + '/authdetails/templates',
+    PROJECT_ROOT + '/polls_graphos/templates'
 )
 
 INSTALLED_APPS = (
@@ -134,7 +135,9 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'polls',
     'authdetails',
-    'django_coverage'
+    'django_coverage',
+    'polls_graphos',
+    'graphos'
 )
 
 # A sample logging configuration. The only tangible logging
