@@ -132,5 +132,3 @@ def polls_and_votes_of_user(request):
                               {'votes': votes, 'left_polls': left_polls},
                                context_instance=RequestContext(request))
 
-def polls_and_votes1(request):
-  poll = Poll.objects.all()

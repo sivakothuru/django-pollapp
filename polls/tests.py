@@ -133,4 +133,3 @@ class TestViewsBasic(TestCase):
         self.c.login(username="foo", password="bar")
         response = self.c.get("/polls_and_votes/")
         self.assertEqual(200, response.status_code)
-
