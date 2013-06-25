@@ -35,5 +35,8 @@ django-graphos==0.0.2a0
 travis-ci build status indicator:
 --------------------------------
 [![Build Status](https://travis-ci.org/sivakothuru/django-pollapp.png)](https://travis-ci.org/sivakothuru/django-pollapp)
+
+Coveralls.io indicator:
+----------------------
 [![Coverage Status](https://coveralls.io/repos/sivakothuru/django-pollapp/badge.png?branch=master)](https://coveralls.io/r/sivakothuru/django-pollapp?branch=master)
 
