@@ -6,11 +6,14 @@ Replace this with more appropriate tests for your application.
 """
 
 from django.test import TestCase
+from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.test import Client
 
 
 class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+    def setUp(self):
+        self.client = Client()
+
+    def test_MorrisDemo(self):
+         self.client.get(reverse('demo_morris_demo'))
