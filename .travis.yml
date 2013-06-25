@@ -6,7 +6,7 @@ python:
 install: "pip install -r requirements.txt --use-mirrors"
 # command to run tests
 script: 
-  - coverage run polls manage.py test  --settings=mysite.travis_settings
+  - coverage run --source=polls manage.py test  --settings=mysite.travis_settings
 
 after_success:
   - coveralls
