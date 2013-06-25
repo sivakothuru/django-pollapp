@@ -6,8 +6,7 @@ python:
 install: "pip install -r requirements.txt --use-mirrors"
 # command to run tests
 script: 
-   - python manage.py test polls  --settings=mysite.travis_settings
-   - python manage.py test authdetails  --settings=mysite.travis_settings
-   - python manage.py test_coverage polls authdetails polls_graphos
+  - coverage run django-poll manage.py test
+
 after_success:
   - coveralls
