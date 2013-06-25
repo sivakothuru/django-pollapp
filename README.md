@@ -29,9 +29,10 @@ python-openid==2.2.5
 requests==1.2.3
 requests-oauthlib==0.3.2
 wsgiref==0.1.2
+django-graphos==0.0.2a0
 
 
 travis-ci build status indicator:
 --------------------------------
-[![Build Status](https://travis-ci.org/[sivakothuru]/[django-pollapp].png)](https://travis-ci.org/[sivakothuru]/[django-pollapp])
+[![Build Status](https://travis-ci.org/sivakothuru/django-pollapp.png)](https://travis-ci.org/sivakothuru/django-pollapp)
 
