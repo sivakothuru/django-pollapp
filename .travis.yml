@@ -8,6 +8,6 @@ install: "pip install -r requirements.txt --use-mirrors"
 script: 
    - python manage.py test polls  --settings=mysite.travis_settings
    - python manage.py test authdetails  --settings=mysite.travis_settings
-   - coverage run --source=coveralls,polls  manage.py test
+   - coverage run --source=mysite setup.py test
 after_success:
   - coveralls
