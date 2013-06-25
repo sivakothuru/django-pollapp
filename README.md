@@ -31,4 +31,7 @@ requests-oauthlib==0.3.2
 wsgiref==0.1.2
 
 
+travis-ci build status indicator:
+--------------------------------
+[![Build Status](https://travis-ci.org/[sivakothuru]/[django-pollapp].png)](https://travis-ci.org/[sivakothuru]/[django-pollapp])
 
